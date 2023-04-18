@@ -1,0 +1,22 @@
+modules:
+  jira:projectPage:
+    - key: testapp
+      function: projfunc
+      title: testapp
+  jira:issuePanel:
+    - key: testapp-hello-world-panel
+      function: main
+      title: testapp
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+  function:
+    - key: main
+      handler: index.run
+    - key: projfunc
+      handler: project.run
+app:
+  id: ari:cloud:ecosystem::app/a086cbf5-fb61-41d2-b9a9-8ba0affeede0
+permissions:
+  scopes:
+    - manage:jira-configuration
+    - read:jira-work
+    - read:issue-event:jira
