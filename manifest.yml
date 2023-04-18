@@ -14,7 +14,7 @@ modules:
     - key: projfunc
       handler: project.run
 app:
-  id: ari:cloud:ecosystem::app/a086cbf5-fb61-41d2-b9a9-8ba0affeede0
+  id: ari:cloud:ecosystem::app/072ee5ff-3486-43d7-bdaa-7d8d39d75511
 permissions:
   scopes:
     - manage:jira-configuration

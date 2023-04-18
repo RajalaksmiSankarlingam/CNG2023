@@ -5,7 +5,7 @@ import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useStat
 const fetchEvents = async () => {
     const res = await api
         .asUser()
-        .requestJira(route`/rest/api/3/search?jql=project=TCP`);
+        .requestJira(route`/rest/api/3/search?jql=project=AEP`);
     const data = await res.json();
     return data;
 };
