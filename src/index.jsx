@@ -4,7 +4,7 @@ import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useStat
 
 const fetchCommentsForIssue = async (issueIdOrKey) => {
   const res = await api
-    .asUser()
+    .asApp()
     .requestJira(route`/rest/api/3/issue/${issueIdOrKey}/comment`);
 
   const data = await res.json();
@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <Fragment>
-      <Text>Planify Estimate: <StatusLozenge text="2" appearance="inprogress" /> </Text>
+      <Text>Planify EST: <StatusLozenge text="2" appearance="inprogress" /> </Text>
     </Fragment>
   );
 };

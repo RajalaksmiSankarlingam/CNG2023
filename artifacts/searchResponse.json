@@ -1,0 +1,248 @@
+[
+    {
+        "expand": "schema,names",
+        "startAt": 0,
+        "maxResults": 15,
+        "total": 3,
+        "issues": [
+            {
+                "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                "id": "10002",
+                "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/issue/10002",
+                "key": "AEP-3",
+                "renderedFields": {
+                    "customfield_10016": null,
+                    "summary": null,
+                    "issuetype": null,
+                    "customfield_10040": null,
+                    "description": "<p>test 1 desc</p>",
+                    "assignee": null,
+                    "status": null
+                },
+                "fields": {
+                    "customfield_10016": 55,
+                    "summary": "Test Task in Sprint",
+                    "issuetype": {
+                        "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/issuetype/10001",
+                        "id": "10001",
+                        "description": "Tasks track small, distinct pieces of work.",
+                        "iconUrl": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+                        "name": "Task",
+                        "subtask": false,
+                        "avatarId": 10318,
+                        "entityId": "55c42419-4983-4a20-9ca1-fe642edb9427",
+                        "hierarchyLevel": 0
+                    },
+                    "customfield_10040": null,
+                    "description": {
+                        "version": 1,
+                        "type": "doc",
+                        "content": [
+                            {
+                                "type": "paragraph",
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "test 1 desc"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "assignee": {
+                        "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/user?accountId=642471bc9d2bc6c90a8c69c2",
+                        "accountId": "642471bc9d2bc6c90a8c69c2",
+                        "avatarUrls": {
+                            "48x48": "https://secure.gravatar.com/avatar/e2db95d12d83076770e515707ed4620d?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FVV-3.png",
+                            "24x24": "https://secure.gravatar.com/avatar/e2db95d12d83076770e515707ed4620d?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FVV-3.png",
+                            "16x16": "https://secure.gravatar.com/avatar/e2db95d12d83076770e515707ed4620d?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FVV-3.png",
+                            "32x32": "https://secure.gravatar.com/avatar/e2db95d12d83076770e515707ed4620d?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FVV-3.png"
+                        },
+                        "displayName": "Varshinee Venkatesan",
+                        "active": true,
+                        "timeZone": "Asia/Calcutta",
+                        "accountType": "atlassian"
+                    },
+                    "status": {
+                        "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/status/10000",
+                        "description": "",
+                        "iconUrl": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/",
+                        "name": "To Do",
+                        "id": "10000",
+                        "statusCategory": {
+                            "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/statuscategory/2",
+                            "id": 2,
+                            "key": "new",
+                            "colorName": "blue-gray",
+                            "name": "To Do"
+                        }
+                    }
+                }
+            },
+            {
+                "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                "id": "10001",
+                "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/issue/10001",
+                "key": "AEP-2",
+                "renderedFields": {
+                    "summary": null,
+                    "customfield_10016": null,
+                    "issuetype": null,
+                    "customfield_10040": null,
+                    "description": "<p>test 3 desc</p>",
+                    "assignee": null,
+                    "status": null
+                },
+                "fields": {
+                    "summary": "Test Task",
+                    "customfield_10016": 39,
+                    "issuetype": {
+                        "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/issuetype/10001",
+                        "id": "10001",
+                        "description": "Tasks track small, distinct pieces of work.",
+                        "iconUrl": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+                        "name": "Task",
+                        "subtask": false,
+                        "avatarId": 10318,
+                        "entityId": "55c42419-4983-4a20-9ca1-fe642edb9427",
+                        "hierarchyLevel": 0
+                    },
+                    "customfield_10040": null,
+                    "description": {
+                        "version": 1,
+                        "type": "doc",
+                        "content": [
+                            {
+                                "type": "paragraph",
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "test 3 desc"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "assignee": null,
+                    "status": {
+                        "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/status/10000",
+                        "description": "",
+                        "iconUrl": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/",
+                        "name": "To Do",
+                        "id": "10000",
+                        "statusCategory": {
+                            "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/statuscategory/2",
+                            "id": 2,
+                            "key": "new",
+                            "colorName": "blue-gray",
+                            "name": "To Do"
+                        }
+                    }
+                }
+            },
+            {
+                "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+                "id": "10000",
+                "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/issue/10000",
+                "key": "AEP-1",
+                "renderedFields": {
+                    "summary": null,
+                    "customfield_10016": null,
+                    "issuetype": null,
+                    "customfield_10040": null,
+                    "description": "<p>test 2 desc</p>",
+                    "assignee": null,
+                    "status": null
+                },
+                "fields": {
+                    "summary": "Test issue creation",
+                    "customfield_10016": 55,
+                    "issuetype": {
+                        "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/issuetype/10001",
+                        "id": "10001",
+                        "description": "Tasks track small, distinct pieces of work.",
+                        "iconUrl": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+                        "name": "Task",
+                        "subtask": false,
+                        "avatarId": 10318,
+                        "entityId": "55c42419-4983-4a20-9ca1-fe642edb9427",
+                        "hierarchyLevel": 0
+                    },
+                    "customfield_10040": null,
+                    "description": {
+                        "version": 1,
+                        "type": "doc",
+                        "content": [
+                            {
+                                "type": "paragraph",
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "test 2 desc"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "assignee": null,
+                    "status": {
+                        "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/status/10000",
+                        "description": "",
+                        "iconUrl": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/",
+                        "name": "To Do",
+                        "id": "10000",
+                        "statusCategory": {
+                            "self": "https://api.atlassian.com/ex/jira/3b99dcbe-16f8-4c38-9eae-6b41b7c260cd/rest/api/3/statuscategory/2",
+                            "id": 2,
+                            "key": "new",
+                            "colorName": "blue-gray",
+                            "name": "To Do"
+                        }
+                    }
+                }
+            }
+        ],
+        "names": {
+            "customfield_10016": "Story point estimate",
+            "summary": "Summary",
+            "issuetype": "Issue Type",
+            "customfield_10040": "Story Point",
+            "description": "Description",
+            "assignee": "Assignee",
+            "status": "Status"
+        },
+        "schema": {
+            "customfield_10016": {
+                "type": "number",
+                "custom": "com.pyxis.greenhopper.jira:jsw-story-points",
+                "customId": 10016
+            },
+            "summary": {
+                "type": "string",
+                "system": "summary"
+            },
+            "issuetype": {
+                "type": "issuetype",
+                "system": "issuetype"
+            },
+            "customfield_10040": {
+                "type": "number",
+                "custom": "com.atlassian.jira.plugin.system.customfieldtypes:float",
+                "customId": 10040
+            },
+            "description": {
+                "type": "string",
+                "system": "description"
+            },
+            "assignee": {
+                "type": "user",
+                "system": "assignee"
+            },
+            "status": {
+                "type": "status",
+                "system": "status"
+            }
+        }
+    },
+    null
+]
