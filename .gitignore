@@ -2,3 +2,5 @@
 /dist/
 /.vscode/
 .idea
+pyserver/models
+pyserver/text_regressor

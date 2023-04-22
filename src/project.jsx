@@ -14,6 +14,9 @@ const mapFieldNames = (issueFields) => {
   //STORY POINT
   issueDescriptionMap["STORY POINT"] = issueFields.customfield_10040
 
+  //SUMMARY POINT
+    issueDescriptionMap["SUMMARY"] = issueFields.summary
+
   //DESCRIPTION
   issueDescriptionMap["DESCRIPTION"] = ''
 
@@ -21,7 +24,8 @@ const mapFieldNames = (issueFields) => {
     issueFields.description.content.forEach(contentElement => {
       contentElement.content.forEach(content => {
         if (content.type = "Text") {
-          issueDescriptionMap["DESCRIPTION"] += content.text;
+          if(contentElement)
+            issueDescriptionMap["DESCRIPTION"] += content.text;
         }
       });
 
