@@ -2,9 +2,12 @@ import api, { route } from "@forge/api";
 
 import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useState, ProjectPage, StatusLozenge ,Table, Head, Cell, Row } from "@forge/ui";
 const fetchEvents = async () => {
+    const context = useProductContext();
+    let currentProjectKey = context.platformContext.projectKey;
+    
     const res = await api
         .asUser()
-        .requestJira(route`/rest/api/3/search?jql=project=AEP`);
+        .requestJira(route`/rest/api/3/search?jql=project=${currentProjectKey}`);
         const data = await res.json();
         return data;
 };
