@@ -1,0 +1,15 @@
+modules:
+  jira:projectPage:
+    - key: cngplanify-hello-world-project-page
+      function: main
+      title: CNGPLANIFY
+  function:
+    - key: main
+      handler: index.run
+app:
+  id: ari:cloud:ecosystem::app/2bde3abe-d60e-4d43-9626-4cadcd153705
+permissions:
+  scopes:
+    - manage:jira-configuration
+    - read:jira-work
+    - read:issue-event:jira
