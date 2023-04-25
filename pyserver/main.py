@@ -155,8 +155,8 @@ def predict_assignee():
     return json.dumps(response)
 
 
-@app.route('/test', methods=['POST'])
-def test():
+@app.route('/predict_spe', methods=['POST'])
+def predict_spe():
     # Auto Keras Regression
 
     reqInput = request.json
