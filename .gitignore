@@ -4,3 +4,5 @@
 .idea
 pyserver/models
 pyserver/text_regressor
+pyserver/text_classifier
+pyserver/label_metadata.pkl
