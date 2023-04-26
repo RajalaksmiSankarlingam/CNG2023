@@ -4,38 +4,22 @@ import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useStat
 
 // const [events, setEvents] = useState('');
 
-const fetchEvents = async () => {
-    const context = useProductContext();
-    let currentProjectKey = context.platformContext.projectKey;
-    
-    const res = await api
-        .asUser()
-        .requestJira(route`/rest/api/3/search?jql=project=${currentProjectKey}`);
-        const data = await res.json();
-    
-        // setEvents(data);
-        return data;
-};
-
 const App = () => {
 
     const [isAllChecked, setAllChecked] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [events, setEvents] = useState([]);
     const context = useProductContext();
     let currentProjectKey = context.platformContext.projectKey;
-    useEffect(() => {
-        const fetchEvents = async () => {
-          const response = await api
-          .asUser()
-          .requestJira(route`/rest/api/3/search?jql=project=${currentProjectKey}`);
-          const data = await response.json();
-          setEvents(data);
-        };
-        fetchEvents();
-      }, []);
-    
-    // setEvents(JSON.stringify(data));
+
+    const fetchEvents = async () => {
+        const context = useProductContext();
+        const res = await api
+            .asApp()
+            .requestJira(route`/rest/api/3/search?jql=project=${currentProjectKey} AND sprint=1`);
+            const data = await res.json();
+        
+            return data;
+    };
 
     const handleCheckAll = () => {
         setAllChecked(!isAllChecked);
@@ -112,7 +96,7 @@ const App = () => {
     const renderStoryPointButton = () =>{
         const [storyPoints, setStoryPoints] = useState('');
         const handleStoryPoint = async() => {
-            const res = await fetch("https://7ebe-223-187-124-8.ngrok-free.app").then(response => response.text())
+            const res = await fetch("https://ba35-183-82-30-245.ngrok-free.app").then(response => response.text())
                     .then(data => setStoryPoints(data))
             console.log('story point button clicked!');
             
@@ -147,64 +131,63 @@ const App = () => {
     }
 
 
-//  const events = useState(async () => await fetchEvents());
-//  var issueArr = []
+ const events = useState(async () => await fetchEvents());
+ var issueArr = []
 
 
-//  events[0].issues.forEach(issue => {
+ events[0].issues.forEach(issue => {
 
-//  var issueDescriptionMap = {}
+ var issueDescriptionMap = {}
 
-//  if (issue.fields.issuetype.name == 'Task') {
-
-
-
-
-//  var descArr = []
-
-//  issue.fields.description.content.forEach(contentElement => {
+ if (issue.fields.issuetype.name == 'Task') {
 
 
 
 
-//  contentElement.content.forEach(content => {
+ var descArr = []
+if(issue.fields.description.content!=null ){
+    issue.fields.description.content.forEach(contentElement => {
 
-//  if (content.type = "Text") {
+        if(contentElement.content!=null){
+            contentElement.content.forEach(content => {
+       
+                if (content.type = "Text") {
+               
+                descArr.push(content.text)
+               
+                }
+               
+            });
+        }
+        
+  
+    });
+}
+ 
 
-//  descArr.push(content.text)
+ issueDescriptionMap.type = issue.fields.summary;
 
-//  }
+ issueDescriptionMap.description = descArr
 
-//  });
+ issueArr.push(issueDescriptionMap)
 
+ }
 
-
-
-//  });
-
-//  issueDescriptionMap.type = issue.fields.summary;
-
-//  issueDescriptionMap.description = descArr
-
-//  issueArr.push(issueDescriptionMap)
-
-//  }
-
-//  });
+ });
 
 
 
  return (
     <ProjectPage>
         <Form onSubmit={(e)=>e.preventDefault()}>
-        {/* {renderSprintDropdown()} */}
+        {renderSprintDropdown()}
         {renderStoryPointButton()}
-        {/* {renderDevHourButton()}
-        {renderSuggestedDeveloperButton()} */}
+        {renderDevHourButton()}
+        {renderSuggestedDeveloperButton()}
         
-        {/* <Table> */}
-            {/* {renderTableHeaders()} */}
-            {/* {issueArr.map(function (issue, i) {
+        <Table>
+            {renderTableHeaders()}
+            {issueArr.map(function (issue, i) {
                 return <Fragment>
                         <Row>
                             <Cell>
@@ -220,9 +203,8 @@ const App = () => {
                         </Row>
                     </Fragment>;
                 })
-            } */}
-        {/* </Table> */}
-        <Text>{JSON.stringify(events)}</Text> 
+            }
+        </Table>
         </Form>
     </ProjectPage>
     );
