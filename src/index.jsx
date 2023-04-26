@@ -1,6 +1,8 @@
-import api, { route } from "@forge/api";
+import api, { route, fetch } from "@forge/api";
 
-import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useState, ProjectPage, StatusLozenge,MacroConfig ,Table, Head, Cell, Row,Select, Option, Button, Checkbox, CheckboxGroup, Form } from "@forge/ui";
+import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useState, ProjectPage, StatusLozenge,MacroConfig ,Table, Head, Cell, Row,Select, Option, Button, Checkbox, CheckboxGroup, Form, useEffect } from "@forge/ui";
+
+// const [events, setEvents] = useState('');
 
 const fetchEvents = async () => {
     const context = useProductContext();
@@ -10,6 +12,8 @@ const fetchEvents = async () => {
         .asUser()
         .requestJira(route`/rest/api/3/search?jql=project=${currentProjectKey}`);
         const data = await res.json();
+    
+        // setEvents(data);
         return data;
 };
 
@@ -17,6 +21,21 @@ const App = () => {
 
     const [isAllChecked, setAllChecked] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [events, setEvents] = useState([]);
+    const context = useProductContext();
+    let currentProjectKey = context.platformContext.projectKey;
+    useEffect(() => {
+        const fetchEvents = async () => {
+          const response = await api
+          .asUser()
+          .requestJira(route`/rest/api/3/search?jql=project=${currentProjectKey}`);
+          const data = await response.json();
+          setEvents(data);
+        };
+        fetchEvents();
+      }, []);
+    
+    // setEvents(JSON.stringify(data));
 
     const handleCheckAll = () => {
         setAllChecked(!isAllChecked);
@@ -91,12 +110,19 @@ const App = () => {
     }
 
     const renderStoryPointButton = () =>{
-        const handleStoryPoint = () => {
+        const [storyPoints, setStoryPoints] = useState('');
+        const handleStoryPoint = async() => {
+            const res = await fetch("https://7ebe-223-187-124-8.ngrok-free.app").then(response => response.text())
+                    .then(data => setStoryPoints(data))
             console.log('story point button clicked!');
+            
         };
         
         return (
-            <Button text="Story points" onClick={handleStoryPoint} />
+            <Fragment>
+                <Button text="Story points" onClick={handleStoryPoint} />
+                <Text>{JSON.stringify(storyPoints)}</Text>
+            </Fragment>
         );
     }
 
@@ -121,65 +147,64 @@ const App = () => {
     }
 
 
- const events = useState(async () => await fetchEvents());
-
- var issueArr = []
-
-
- events[0].issues.forEach(issue => {
-
- var issueDescriptionMap = {}
-
- if (issue.fields.issuetype.name == 'Task') {
+//  const events = useState(async () => await fetchEvents());
+//  var issueArr = []
 
 
+//  events[0].issues.forEach(issue => {
 
+//  var issueDescriptionMap = {}
 
- var descArr = []
-
- issue.fields.description.content.forEach(contentElement => {
+//  if (issue.fields.issuetype.name == 'Task') {
 
 
 
 
- contentElement.content.forEach(content => {
+//  var descArr = []
 
- if (content.type = "Text") {
-
- descArr.push(content.text)
-
- }
-
- });
+//  issue.fields.description.content.forEach(contentElement => {
 
 
 
 
- });
+//  contentElement.content.forEach(content => {
 
- issueDescriptionMap.type = issue.fields.summary;
+//  if (content.type = "Text") {
 
- issueDescriptionMap.description = descArr
+//  descArr.push(content.text)
 
- issueArr.push(issueDescriptionMap)
+//  }
 
- }
+//  });
 
- });
+
+
+
+//  });
+
+//  issueDescriptionMap.type = issue.fields.summary;
+
+//  issueDescriptionMap.description = descArr
+
+//  issueArr.push(issueDescriptionMap)
+
+//  }
+
+//  });
 
 
 
  return (
     <ProjectPage>
-        <Form onSubmit={()=>console.log('s')}>
-        {renderSprintDropdown()}
+        <Form onSubmit={(e)=>e.preventDefault()}>
+        {/* {renderSprintDropdown()} */}
         {renderStoryPointButton()}
-        {renderDevHourButton()}
-        {renderSuggestedDeveloperButton()}
+        {/* {renderDevHourButton()}
+        {renderSuggestedDeveloperButton()} */}
         
-        <Table>
-            {renderTableHeaders()}
-            {issueArr.map(function (issue, i) {
+        {/* <Table> */}
+            {/* {renderTableHeaders()} */}
+            {/* {issueArr.map(function (issue, i) {
                 return <Fragment>
                         <Row>
                             <Cell>
@@ -195,8 +220,9 @@ const App = () => {
                         </Row>
                     </Fragment>;
                 })
-            }
-        </Table>
+            } */}
+        {/* </Table> */}
+        <Text>{JSON.stringify(events)}</Text> 
         </Form>
     </ProjectPage>
     );

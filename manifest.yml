@@ -13,3 +13,9 @@ permissions:
     - manage:jira-configuration
     - read:jira-work
     - read:issue-event:jira
+  external:
+    fetch:
+      client:
+        - "https://7ebe-223-187-124-8.ngrok-free.app"
+      backend:
+        - "https://7ebe-223-187-124-8.ngrok-free.app"
