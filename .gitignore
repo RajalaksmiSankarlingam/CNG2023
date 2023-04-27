@@ -2,5 +2,6 @@
 /dist/
 /.vscode/
 .idea
-pyserver/models
-pyserver/text_regressor
+/models
+/text_regressor
+/text_classifier

@@ -1,6 +1,6 @@
 import api, { route, fetch } from "@forge/api";
 
-import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useState, ProjectPage, StatusLozenge,MacroConfig ,Table, Head, Cell, Row,Select, Option, Button, Checkbox, CheckboxGroup, Form, useEffect, Heading, Badge, Strong } from "@forge/ui";
+import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useState, ProjectPage, StatusLozenge,MacroConfig ,Table, Head, Cell, Row,Select, Option, Button, Checkbox, CheckboxGroup, Form, useEffect, Heading, Badge, Strong, ButtonSet } from "@forge/ui";
 import { useTable } from 'react-table';
 
 // const [events, setEvents] = useState('');
@@ -101,7 +101,7 @@ const App = () => {
                 {/* <Cell><CheckboxGroup name="products"><Checkbox label="select all" isChecked={isAllChecked} onChange={handleCheckAll} /></CheckboxGroup></Cell> */}
                 <Cell><Text>Story Name</Text></Cell>
                 <Cell><Text>Description/Summary</Text></Cell>
-                <Cell><Text>Estimated Points</Text></Cell>
+                <Cell><Text>Estimated Story Points</Text></Cell>
                 <Cell><Text>Suggested Developer</Text></Cell>
                 </Head>
         </Fragment>
@@ -197,7 +197,7 @@ const App = () => {
         
         return (
             // <Fragment>
-                <Button text="Story points" onClick={handleStoryPoint} />
+                <Button text="Estimate Story Point" onClick={handleStoryPoint} />
             // </Fragment>
         );
     }
@@ -221,10 +221,10 @@ const App = () => {
         };
         
         return (
-            <Fragment>
+            // <Fragment>
                 <Button text="Train" onClick={handleTrainButton} />
-                {/* <Text>{JSON.stringify(train)}</Text> */}
-            </Fragment>
+                // {/* <Text>{JSON.stringify(train)}</Text> */}
+            // </Fragment>
         );
     }
 
@@ -258,7 +258,7 @@ const App = () => {
         };
 
         return (
-            <Button text="Suggested Developer" onClick={handleSuggestedDeveloper} />
+            <Button text="Suggest Developers" onClick={handleSuggestedDeveloper} />
         );
     }
 
@@ -355,11 +355,13 @@ const App = () => {
 
  return (
     <ProjectPage>
-        <Text><Strong>-------------    -------- ------------------</Strong></Text>
         <Heading size="Medium"><Text>{currentSprint}</Text></Heading>
-        <Text><Strong>-------------    -------- ------------------</Strong></Text>
-        {renderStoryPointButton()}
-        {renderSuggestedDeveloperButton()}
+        <Heading size="Medium"></Heading> 
+        <ButtonSet>
+            {renderStoryPointButton()}
+            {renderSuggestedDeveloperButton()}
+        </ButtonSet>
+        <Heading size="Medium"></Heading>
         <Table>
             {renderTableHeaders()}
             {issueArr.map(function (issue, i) {
