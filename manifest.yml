@@ -2,7 +2,7 @@ modules:
   jira:projectPage:
     - key: cngplanify-hello-world-project-page
       function: main
-      title: CNGPLANIFY
+      title: PLANIFY
   function:
     - key: main
       handler: index.run
