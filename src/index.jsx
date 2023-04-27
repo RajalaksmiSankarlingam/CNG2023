@@ -4,6 +4,65 @@ import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useStat
 
 // const [events, setEvents] = useState('');
 
+const trainMockData = [
+    {
+      "ISSUE TYPE": "Task",
+      "STORY POINT ESTIMATE": 3,
+      "STORY POINT": null,
+      "SUMMARY": "Update existing servlet implementation extend BaseControllerServlet MyCase, ODR & XChange applications add authentication filters",
+      "DESCRIPTION": "undefinedundefined",
+      "ASSIGNEE": "VISHNU"
+    },
+    {
+      "ISSUE TYPE": "Task",
+      "STORY POINT ESTIMATE": 5,
+      "STORY POINT": null,
+      "SUMMARY": "Research: Add ability to set Interview Condition logic for Templates",
+      "DESCRIPTION": "Currently, conditional logic such as Interview Conditions is set on a field level per Content Form, and does not retain across Template usage in multiple Content Forms. Need to add the ability to set Interview Condition logic within a Template, such that admins can define Interview Conditions once within a Template, and reuse the same conditional logic by including the same Template within multiple Content Forms.",
+      "ASSIGNEE": "VARSHINEE VENKATESAN"
+    },
+    {
+      "ISSUE TYPE": "Task",
+      "STORY POINT ESTIMATE": 5,
+      "STORY POINT": null,
+      "SUMMARY": "Continuation - Form.io documentation",
+      "DESCRIPTION": "prepare documentation for form.io styling and configuration Documentation link: FormIO Styling Document.docx",
+      "ASSIGNEE": "RAJALAKSHMI"
+    },
+    {
+      "ISSUE TYPE": "Task",
+      "STORY POINT ESTIMATE": 5,
+      "STORY POINT": null,
+      "SUMMARY": "Continuation - Research: integrate Rasa with Twilio Flex",
+      "DESCRIPTION": "Need to explore integrating Rasa with Twilio Flex, as an alternative to using Google Dialogflow.",
+      "ASSIGNEE": "VARSHINEE VENKATESAN"
+    },
+    {
+      "ISSUE TYPE": "Task",
+      "STORY POINT ESTIMATE": 3,
+      "STORY POINT": null,
+      "SUMMARY": "Continuation - Add Gitlab pipeline to generate CourtsCommon Jar file to push to Nexus",
+      "DESCRIPTION": "Add Gitlab pipeline to generate CourtsCommon Jar file to push to NexusundefinedRepo URL: https://slc-git01.utahcourts.local/development/all_dev/commonapps/courtscommon.git",
+      "ASSIGNEE": "KEERTANA"
+    },
+    {
+      "ISSUE TYPE": "Task",
+      "STORY POINT ESTIMATE": 5,
+      "STORY POINT": null,
+      "SUMMARY": "Continuation - Add FormEngine to GitLab DevOps Operation",
+      "DESCRIPTION": "undefinedRepo URL: https://slc-git01.utahcourts.local/development/orange_dev/interview-apps/formengineWAS: https://dev-slc-ws-node03.utahcourts.local:9043/ibm/consoleApplication Name: FormEngineV5Context path: /FormEngineV5 App URL: https://devapps.utcourts.gov/FormEngineV5Servers to run :WebSphere:cell=dev-slc-ws-cell01,node=dev-slc-ws-ihs02,server=dev-slc-ws-ihs02\nWebSphere:cell=dev-slc-ws-cell01,node=dev-slc-ws-ihs01,server=dev-slc-ws-ihs01\nWebSphere:cell=dev-slc-ws-cell01,cluster=Application_Cluster",
+      "ASSIGNEE": "KEERTANA"
+    },
+    {
+      "ISSUE TYPE": "Task",
+      "STORY POINT ESTIMATE": 3,
+      "STORY POINT": null,
+      "SUMMARY": "Update existing servlet implementation extend BaseControllerServlet MyCase, ODR & XChange applications add authentication filters",
+      "DESCRIPTION": "undefinedundefined",
+      "ASSIGNEE": "VISHNU"
+    }
+]
+
 const App = () => {
 
     // const [isAllChecked, setAllChecked] = useState(false);
@@ -111,18 +170,27 @@ const App = () => {
     }
 
     const renderTrainButton = () =>{
-        // const [storyPoints, setStoryPoints] = useState('');
-        const handleStoryPoint = async() => {
-            const res = await fetch("https://88ed-157-51-85-91.ngrok-free.app").then(response => response.text())
-                    .then(data => setStoryPoints(data))
+        const [train, setTrain] = useState('');
+        const handleTrainButton = async() => {
+                const res = await fetch("https://88ed-157-51-85-91.ngrok-free.app/train",{
+                method: "POST", 
+                mode: "cors",
+                cache: "no-cache", 
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(trainMockData),
+            }
+            ).then(response => response.text())
+                    .then(data => setTrain(data))
             console.log('story point button clicked!');
             
         };
         
         return (
             <Fragment>
-                <Button text="Train" onClick={handleStoryPoint} />
-                <Text>{JSON.stringify(storyPoints)}</Text>
+                <Button text="Train" onClick={handleTrainButton} />
+                <Text>{JSON.stringify(train)}</Text>
             </Fragment>
         );
     }
@@ -201,17 +269,17 @@ if(issue.fields.description.content!=null ){
         {renderStoryPointButton()}
         {renderDevHourButton()}
         {renderSuggestedDeveloperButton()}
-        
+        {renderTrainButton()}
         <Table>
             {renderTableHeaders()}
             {issueArr.map(function (issue, i) {
                 return <Fragment>
                         <Row>
-                            <Cell>
+                            {/* <Cell>
                                 <CheckboxGroup name={"products"}>
                                     {renderCheckBox(i)}
                                 </CheckboxGroup>    
-                            </Cell>
+                            </Cell> */}
                             {renderTask(issue.type)}    
                             {renderDescription(issue.description)}
                             {renderPoints()}
