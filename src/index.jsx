@@ -101,9 +101,8 @@ const App = () => {
                 {/* <Cell><CheckboxGroup name="products"><Checkbox label="select all" isChecked={isAllChecked} onChange={handleCheckAll} /></CheckboxGroup></Cell> */}
                 <Cell><Text>Story Name</Text></Cell>
                 <Cell><Text>Description/Summary</Text></Cell>
-                <Cell><Text>points</Text></Cell>
-                <Cell><Text>dev hours</Text></Cell>
-                <Cell><Text>Suggested Devekoper</Text></Cell>
+                <Cell><Text>Estimated Points</Text></Cell>
+                <Cell><Text>Suggested Developer</Text></Cell>
                 </Head>
         </Fragment>
     }
@@ -172,7 +171,7 @@ const App = () => {
             "data": issueData
         };
         const handleStoryPoint = async() => {
-            const res = await fetch("https://9a1e-157-51-85-91.ngrok-free.app/predict_spe",
+            const res = await fetch("https://ab39-157-51-85-91.ngrok-free.app/predict_spe",
             {
                 method : "POST",
                 headers : {
@@ -206,7 +205,7 @@ const App = () => {
     const renderTrainButton = () =>{
         const [train, setTrain] = useState('');
         const handleTrainButton = async() => {
-                const res = await fetch("https://9a1e-157-51-85-91.ngrok-free.app/train",{
+                const res = await fetch("https://ab39-157-51-85-91.ngrok-free.app/train",{
                 method: "POST", 
                 mode: "cors",
                 cache: "no-cache", 
@@ -229,16 +228,6 @@ const App = () => {
         );
     }
 
-    const renderDevHourButton = () =>{
-        const handleDevHour = () => {
-            console.log('DevHour button clicked!');
-        };
-        
-        return (
-            <Button text="Dev Hours" onClick={handleDevHour} />
-        );
-    }
-
     // const [suggestedDeveloper, setSuggestedDeveloper] = useState([]);
     const renderSuggestedDeveloperButton = () =>{
         let reqbody = {
@@ -246,7 +235,7 @@ const App = () => {
             "data": issueData
         };
         const handleSuggestedDeveloper = async() => {
-            const res = await fetch("https://9a1e-157-51-85-91.ngrok-free.app/predict_assignee",
+            const res = await fetch("https://ab39-157-51-85-91.ngrok-free.app/predict_assignee",
             {
                 method : "POST",
                 headers : {
@@ -363,54 +352,6 @@ const App = () => {
             setIssueData([...issueDataStruct]);
            
     },[])
-//  const events = useState(async () => await fetchEvents());
-
-// -------------------------------
-
-// ------------------------------
-
-//  events[0].issues.forEach(issue => {
-
-//  var issueDescriptionMap = {}
-
-//  if (issue.fields.issuetype.name == 'Task') {
-
-
-
-
-//  var descArr = []
-// if(issue.fields.description.content!=null ){
-//     issue.fields.description.content.forEach(contentElement => {
-
-//         if(contentElement.content!=null){
-//             contentElement.content.forEach(content => {
-       
-//                 if (content.type = "Text") {
-               
-//                 descArr.push(content.text)
-               
-//                 }
-               
-//             });
-//         }
-        
-  
-//     });
-// }
- 
-
-//  issueDescriptionMap.type = issue.fields.summary;
-
-//  issueDescriptionMap.description = descArr
-
-//  issueArr.push(issueDescriptionMap)
-//  setIssueArr([...issueData])
-
-//  }
-
-//  });
-
-
 
  return (
     <ProjectPage>
@@ -418,9 +359,7 @@ const App = () => {
         <Heading size="Medium"><Text>{currentSprint}</Text></Heading>
         <Text><Strong>-------------    -------- ------------------</Strong></Text>
         {renderStoryPointButton()}
-        {renderDevHourButton()}
         {renderSuggestedDeveloperButton()}
-        {renderTrainButton()}
         <Table>
             {renderTableHeaders()}
             {issueArr.map(function (issue, i) {
@@ -434,7 +373,6 @@ const App = () => {
                             {renderTask(issue.type)}    
                             {renderDescription(issue.description)}
                             {renderPoints(issue.points)}
-                            {renderDevHours()}
                             {renderSuggestedDeveloper(issue.suggestedDeveloper)}
                         </Row>
                     </Fragment>
