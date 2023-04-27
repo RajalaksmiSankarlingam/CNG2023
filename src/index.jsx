@@ -6,8 +6,8 @@ import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useStat
 
 const App = () => {
 
-    const [isAllChecked, setAllChecked] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [isAllChecked, setAllChecked] = useState(false);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const context = useProductContext();
     let currentProjectKey = context.platformContext.projectKey;
 
@@ -21,19 +21,19 @@ const App = () => {
             return data;
     };
 
-    const handleCheckAll = () => {
-        setAllChecked(!isAllChecked);
-        if (!isAllChecked) {
-          setSelectedRows(issueArr.map((row,i) => i));
-        } else {
-          setSelectedRows([]);
-        }
-    };
+    // const handleCheckAll = () => {
+    //     setAllChecked(!isAllChecked);
+    //     if (!isAllChecked) {
+    //       setSelectedRows(issueArr.map((row,i) => i));
+    //     } else {
+    //       setSelectedRows([]);
+    //     }
+    // };
 
     const renderTableHeaders = () => {
         return <Fragment>
             <Head>
-                <Cell><CheckboxGroup name="products"><Checkbox label="select all" isChecked={isAllChecked} onChange={handleCheckAll} /></CheckboxGroup></Cell>
+                {/* <Cell><CheckboxGroup name="products"><Checkbox label="select all" isChecked={isAllChecked} onChange={handleCheckAll} /></CheckboxGroup></Cell> */}
                 <Cell><Text>Story Name</Text></Cell>
                 <Cell><Text>Description/Summary</Text></Cell>
                 <Cell><Text>points</Text></Cell>
@@ -43,18 +43,18 @@ const App = () => {
         </Fragment>
     }
 
-    const handleCheckRow = (id) => {
-        const index = selectedRows.indexOf(id);
-        if (index !== -1) {
-          setSelectedRows(selectedRows.filter(row => row !== id));
-        } else {
-          setSelectedRows([...selectedRows, id]);
-        }
-    };
+    // const handleCheckRow = (id) => {
+    //     const index = selectedRows.indexOf(id);
+    //     if (index !== -1) {
+    //       setSelectedRows(selectedRows.filter(row => row !== id));
+    //     } else {
+    //       setSelectedRows([...selectedRows, id]);
+    //     }
+    // };
 
-    const renderCheckBox = (id) =>{
-        return <Checkbox isChecked={selectedRows.includes(id)} onChange={()=>handleCheckRow(id)} />
-    }
+    // const renderCheckBox = (id) =>{
+    //     return <Checkbox isChecked={selectedRows.includes(id)} onChange={()=>handleCheckRow(id)} />
+    // }
 
     const renderTask= (issueType) =>{
         return <Cell><Text><StatusLozenge text={issueType} appearance="inprogress" /></Text></Cell>
@@ -96,7 +96,7 @@ const App = () => {
     const renderStoryPointButton = () =>{
         const [storyPoints, setStoryPoints] = useState('');
         const handleStoryPoint = async() => {
-            const res = await fetch("https://ba35-183-82-30-245.ngrok-free.app").then(response => response.text())
+            const res = await fetch("https://88ed-157-51-85-91.ngrok-free.app").then(response => response.text())
                     .then(data => setStoryPoints(data))
             console.log('story point button clicked!');
             
@@ -105,6 +105,23 @@ const App = () => {
         return (
             <Fragment>
                 <Button text="Story points" onClick={handleStoryPoint} />
+                <Text>{JSON.stringify(storyPoints)}</Text>
+            </Fragment>
+        );
+    }
+
+    const renderTrainButton = () =>{
+        // const [storyPoints, setStoryPoints] = useState('');
+        const handleStoryPoint = async() => {
+            const res = await fetch("https://88ed-157-51-85-91.ngrok-free.app").then(response => response.text())
+                    .then(data => setStoryPoints(data))
+            console.log('story point button clicked!');
+            
+        };
+        
+        return (
+            <Fragment>
+                <Button text="Train" onClick={handleStoryPoint} />
                 <Text>{JSON.stringify(storyPoints)}</Text>
             </Fragment>
         );
