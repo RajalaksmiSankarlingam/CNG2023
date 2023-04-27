@@ -17,6 +17,6 @@ permissions:
   external:
     fetch:
       client:
-        - "https://b2a8-157-51-85-91.ngrok-free.app"
+        - "https://9a1e-157-51-85-91.ngrok-free.app"
       backend:
-        - "https://b2a8-157-51-85-91.ngrok-free.app"
+        - "https://9a1e-157-51-85-91.ngrok-free.app"

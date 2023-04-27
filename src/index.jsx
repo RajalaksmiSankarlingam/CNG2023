@@ -131,16 +131,16 @@ const App = () => {
         })}</Cell>
     }
 
-    const renderPoints = () => {
-        return <Cell><Text>5</Text></Cell>
+    const renderPoints = (point) => {
+        return <Cell><Text>{point}</Text></Cell>
     }
 
     const renderDevHours = () => {
         return <Cell><Text>8</Text></Cell>
     }
 
-    const renderSuggestedDeveloper = () => {
-        return <Cell><Text>Naveen Kumar</Text></Cell>
+    const renderSuggestedDeveloper = (developer) => {
+        return <Cell><Text>{developer}</Text></Cell>
     }
 
     const renderSprintDropdown = () => {
@@ -164,15 +164,15 @@ const App = () => {
             </Select>
         );
     }
-
+    const [storyPoints, setStoryPoints] = useState([]);
     const renderStoryPointButton = () =>{
-        const [storyPoints, setStoryPoints] = useState('');
+        
         let reqbody = {
             "model": "lr.sav",
             "data": issueData
         };
         const handleStoryPoint = async() => {
-            const res = await fetch("https://b2a8-157-51-85-91.ngrok-free.app/predict_spe",
+            const res = await fetch("https://9a1e-157-51-85-91.ngrok-free.app/predict_spe",
             {
                 method : "POST",
                 headers : {
@@ -180,23 +180,33 @@ const App = () => {
                 },
                 body : JSON.stringify(reqbody)
             }).then(response => response.text())
-                    .then(data => setStoryPoints(data))
+                    .then(data => {
+                        let storyPointArrData = JSON.parse(data)
+                        let story_points = storyPointArrData["DATA_PREDICTION"]
+                        
+                        issueArr.forEach((issue, i)=>{
+                            issue.points = story_points[i];
+                        })
+
+                        setIssueArr([...issueArr])
+
+                        setStoryPoints([...story_points]
+                            )})
             console.log('story point button clicked!');
             
         };
         
         return (
-            <Fragment>
+            // <Fragment>
                 <Button text="Story points" onClick={handleStoryPoint} />
-                <Text>{JSON.stringify(storyPoints)}</Text>
-            </Fragment>
+            // </Fragment>
         );
     }
 
     const renderTrainButton = () =>{
         const [train, setTrain] = useState('');
         const handleTrainButton = async() => {
-                const res = await fetch("https://b2a8-157-51-85-91.ngrok-free.app/train",{
+                const res = await fetch("https://9a1e-157-51-85-91.ngrok-free.app/train",{
                 method: "POST", 
                 mode: "cors",
                 cache: "no-cache", 
@@ -229,96 +239,176 @@ const App = () => {
         );
     }
 
+    // const [suggestedDeveloper, setSuggestedDeveloper] = useState([]);
     const renderSuggestedDeveloperButton = () =>{
-        const handleSuggestedDeveloper = () => {
-            console.log('SuggestedDeveloper button clicked!');
+        let reqbody = {
+            "model": "lr.sav",
+            "data": issueData
         };
-        
+        const handleSuggestedDeveloper = async() => {
+            const res = await fetch("https://9a1e-157-51-85-91.ngrok-free.app/predict_assignee",
+            {
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                body : JSON.stringify(reqbody)
+            }).then(response => response.text())
+                    .then(data => {
+                        let storyPointArrData = JSON.parse(data)
+                        let story_points = storyPointArrData["DATA_PREDICTION"]
+                        
+                        issueArr.forEach((issue, i)=>{
+                            issue.suggestedDeveloper = story_points[i];
+                        })
+
+                        setIssueArr([...issueArr])
+
+                        // setStoryPoints([...story_points])
+                        })
+        };
+
         return (
             <Button text="Suggested Developer" onClick={handleSuggestedDeveloper} />
         );
     }
 
+    const [issueArr,setIssueArr] = useState([]);
+    const [issueData,setIssueData] = useState([]);
 
- const events = useState(async () => await fetchEvents());
- var issueArr = []
+    useEffect(async()=>{
+        const res = await api
+        .asApp()
+        .requestJira(route`/rest/api/3/search?jql=project=AEP AND sprint in openSprints()`);
+        const events = await res.json();
+        let resArray = [];
+        events.issues.forEach(issue => {
+
+            var issueDescriptionMap = {}
+           
+            if (issue.fields.issuetype.name == 'Task') {
+           
+           
+           
+           
+            var descArr = []
+           if(issue.fields.description.content!=null ){
+               issue.fields.description.content.forEach(contentElement => {
+           
+                   if(contentElement.content!=null){
+                       contentElement.content.forEach(content => {
+                  
+                           if (content.type = "Text") {
+                          
+                           descArr.push(content.text)
+                          
+                           }
+                          
+                       });
+                   }
+                   
+             
+               });
+           }
+            
+           
+            issueDescriptionMap.type = issue.fields.summary;
+           
+            issueDescriptionMap.description = descArr
+           
+            resArray.push(issueDescriptionMap)
+            
+           
+            }
+           
+            });
+
+            setIssueArr([...resArray])
+            let issueDataStruct = [];
+            events.issues.forEach(issue => {
+
+                let desc = '';
+                if(issue.fields.description.content!=null ){
+                    issue.fields.description.content.forEach(contentElement => {
+                
+                        if(contentElement.content!=null){
+                            contentElement.content.forEach(content => {
+                    
+                                if (content.type = "Text") {
+                            
+                                    desc+= content.text+'\n';
+                            
+                                }
+                            
+                            });
+                        }
+                        
+                
+                    });
+                }
+
+                let issueObj = {
+                    "ISSUE TYPE" : issue.fields.issuetype.name,
+                    "STORY POINT ESTIMATE" : issue.fields.customfield_10016,
+                    "STORY POINT" : null,
+                    "SUMMARY" : issue.fields.summary,
+                    "DESCRIPTION" : desc,
+                    "ASSIGNEE" : issue.fields.assignee
+                }
+
+                issueDataStruct.push(issueObj);
+                
+            })
+
+            setIssueData([...issueDataStruct]);
+           
+    },[])
+//  const events = useState(async () => await fetchEvents());
 
 // -------------------------------
-var issueData = []
- events[0].issues.forEach(issue => {
 
-    let desc = '';
-    if(issue.fields.description.content!=null ){
-        issue.fields.description.content.forEach(contentElement => {
-    
-            if(contentElement.content!=null){
-                contentElement.content.forEach(content => {
-           
-                    if (content.type = "Text") {
-                   
-                        desc+= content.text+'\n';
-                   
-                    }
-                   
-                });
-            }
-            
-      
-        });
-    }
-
-    let issueObj = {
-        "ISSUE TYPE" : issue.fields.issuetype.name,
-        "STORY POINT ESTIMATE" : issue.fields.customfield_10016,
-        "STORY POINT" : null,
-        "SUMMARY" : issue.fields.summary,
-        "DESCRIPTION" : desc,
-        "ASSIGNEE" : issue.fields.assignee
-    }
-
-    issueData.push(issueObj);
- })
 // ------------------------------
 
- events[0].issues.forEach(issue => {
+//  events[0].issues.forEach(issue => {
 
- var issueDescriptionMap = {}
+//  var issueDescriptionMap = {}
 
- if (issue.fields.issuetype.name == 'Task') {
-
-
+//  if (issue.fields.issuetype.name == 'Task') {
 
 
- var descArr = []
-if(issue.fields.description.content!=null ){
-    issue.fields.description.content.forEach(contentElement => {
 
-        if(contentElement.content!=null){
-            contentElement.content.forEach(content => {
+
+//  var descArr = []
+// if(issue.fields.description.content!=null ){
+//     issue.fields.description.content.forEach(contentElement => {
+
+//         if(contentElement.content!=null){
+//             contentElement.content.forEach(content => {
        
-                if (content.type = "Text") {
+//                 if (content.type = "Text") {
                
-                descArr.push(content.text)
+//                 descArr.push(content.text)
                
-                }
+//                 }
                
-            });
-        }
+//             });
+//         }
         
   
-    });
-}
+//     });
+// }
  
 
- issueDescriptionMap.type = issue.fields.summary;
+//  issueDescriptionMap.type = issue.fields.summary;
 
- issueDescriptionMap.description = descArr
+//  issueDescriptionMap.description = descArr
 
- issueArr.push(issueDescriptionMap)
+//  issueArr.push(issueDescriptionMap)
+//  setIssueArr([...issueData])
 
- }
+//  }
 
- });
+//  });
 
 
 
@@ -343,13 +433,14 @@ if(issue.fields.description.content!=null ){
                             </Cell> */}
                             {renderTask(issue.type)}    
                             {renderDescription(issue.description)}
-                            {renderPoints()}
+                            {renderPoints(issue.points)}
                             {renderDevHours()}
-                            {renderSuggestedDeveloper()}
+                            {renderSuggestedDeveloper(issue.suggestedDeveloper)}
                         </Row>
                     </Fragment>
                 }) 
              }
+             
          </Table>
          {/* <Text>{JSON.stringify(events)}</Text> */}
     </ProjectPage>
