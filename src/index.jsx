@@ -167,8 +167,19 @@ const App = () => {
 
     const renderStoryPointButton = () =>{
         const [storyPoints, setStoryPoints] = useState('');
+        let reqbody = {
+            "model": "lr.sav",
+            "data": issueData
+        };
         const handleStoryPoint = async() => {
-            const res = await fetch("https://88ed-157-51-85-91.ngrok-free.app").then(response => response.text())
+            const res = await fetch("https://b2a8-157-51-85-91.ngrok-free.app/predict_spe",
+            {
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                body : JSON.stringify(reqbody)
+            }).then(response => response.text())
                     .then(data => setStoryPoints(data))
             console.log('story point button clicked!');
             
@@ -177,7 +188,7 @@ const App = () => {
         return (
             <Fragment>
                 <Button text="Story points" onClick={handleStoryPoint} />
-                {/* <Text>{JSON.stringify(storyPoints)}</Text> */}
+                <Text>{JSON.stringify(storyPoints)}</Text>
             </Fragment>
         );
     }
@@ -185,7 +196,7 @@ const App = () => {
     const renderTrainButton = () =>{
         const [train, setTrain] = useState('');
         const handleTrainButton = async() => {
-                const res = await fetch("https://88ed-157-51-85-91.ngrok-free.app/train",{
+                const res = await fetch("https://b2a8-157-51-85-91.ngrok-free.app/train",{
                 method: "POST", 
                 mode: "cors",
                 cache: "no-cache", 
@@ -232,6 +243,42 @@ const App = () => {
  const events = useState(async () => await fetchEvents());
  var issueArr = []
 
+// -------------------------------
+var issueData = []
+ events[0].issues.forEach(issue => {
+
+    let desc = '';
+    if(issue.fields.description.content!=null ){
+        issue.fields.description.content.forEach(contentElement => {
+    
+            if(contentElement.content!=null){
+                contentElement.content.forEach(content => {
+           
+                    if (content.type = "Text") {
+                   
+                        desc+= content.text+'\n';
+                   
+                    }
+                   
+                });
+            }
+            
+      
+        });
+    }
+
+    let issueObj = {
+        "ISSUE TYPE" : issue.fields.issuetype.name,
+        "STORY POINT ESTIMATE" : issue.fields.customfield_10016,
+        "STORY POINT" : null,
+        "SUMMARY" : issue.fields.summary,
+        "DESCRIPTION" : desc,
+        "ASSIGNEE" : issue.fields.assignee
+    }
+
+    issueData.push(issueObj);
+ })
+// ------------------------------
 
  events[0].issues.forEach(issue => {
 
@@ -300,10 +347,11 @@ if(issue.fields.description.content!=null ){
                             {renderDevHours()}
                             {renderSuggestedDeveloper()}
                         </Row>
-                    </Fragment>;
-                })
-            }
-        </Table>
+                    </Fragment>
+                }) 
+             }
+         </Table>
+         {/* <Text>{JSON.stringify(events)}</Text> */}
     </ProjectPage>
     );
 };
