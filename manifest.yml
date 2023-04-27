@@ -13,6 +13,7 @@ permissions:
     - manage:jira-configuration
     - read:jira-work
     - read:issue-event:jira
+    - read:sprint:jira-software
   external:
     fetch:
       client:

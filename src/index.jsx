@@ -1,6 +1,7 @@
 import api, { route, fetch } from "@forge/api";
 
-import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useState, ProjectPage, StatusLozenge,MacroConfig ,Table, Head, Cell, Row,Select, Option, Button, Checkbox, CheckboxGroup, Form, useEffect } from "@forge/ui";
+import ForgeUI, { render, Fragment, Text, IssuePanel, useProductContext, useState, ProjectPage, StatusLozenge,MacroConfig ,Table, Head, Cell, Row,Select, Option, Button, Checkbox, CheckboxGroup, Form, useEffect, Heading, Badge, Strong } from "@forge/ui";
+import { useTable } from 'react-table';
 
 // const [events, setEvents] = useState('');
 
@@ -67,27 +68,32 @@ const App = () => {
 
     // const [isAllChecked, setAllChecked] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
+    const [sprints, setSprints] = useState([]);
     const context = useProductContext();
+    const [currentSprint, setCurrentSprint] = useState('');
     let currentProjectKey = context.platformContext.projectKey;
 
     const fetchEvents = async () => {
         const context = useProductContext();
         const res = await api
             .asApp()
-            .requestJira(route`/rest/api/3/search?jql=project=${currentProjectKey} AND sprint=1`);
+            .requestJira(route`/rest/api/3/search?jql=project=${currentProjectKey} AND sprint in openSprints()`);
             const data = await res.json();
         
             return data;
     };
 
-    // const handleCheckAll = () => {
-    //     setAllChecked(!isAllChecked);
-    //     if (!isAllChecked) {
-    //       setSelectedRows(issueArr.map((row,i) => i));
-    //     } else {
-    //       setSelectedRows([]);
-    //     }
-    // };
+    useEffect(async()=>{
+        const response = await api.asApp()
+        .requestJira(route`/rest/agile/1.0/board/1/sprint`);
+        const data = await response.json();
+        let values = data.values;
+        
+        let currentSpr = values.find((x)=>{
+            return x.state == 'active'
+        })
+        setCurrentSprint(currentSpr.name);
+    },[])
 
     const renderTableHeaders = () => {
         return <Fragment>
@@ -143,10 +149,17 @@ const App = () => {
           { label: 'Sprint 2', value: 'Sprint 2' },
           { label: 'Sprint 3', value: 'Sprint 3' }
         ];
+
+        const handleOptionChange = (event) => {
+            const selectedOption = event.target.value;
+            // Do something with the selected option
+            setSelectedSprint(selectedOption);
+        }
+
         return (
-            <Select name="select-sprint" label="Select Sprint">
+            <Select name="select-sprint" label="Select Sprint" onSelectChange={handleOptionChange}>
               {options.map(option => (
-                <Option value={option.value} label={option.label} />
+                <Option value={option.value} label={option.label}/>
               ))}
             </Select>
         );
@@ -164,7 +177,7 @@ const App = () => {
         return (
             <Fragment>
                 <Button text="Story points" onClick={handleStoryPoint} />
-                <Text>{JSON.stringify(storyPoints)}</Text>
+                {/* <Text>{JSON.stringify(storyPoints)}</Text> */}
             </Fragment>
         );
     }
@@ -190,7 +203,7 @@ const App = () => {
         return (
             <Fragment>
                 <Button text="Train" onClick={handleTrainButton} />
-                <Text>{JSON.stringify(train)}</Text>
+                {/* <Text>{JSON.stringify(train)}</Text> */}
             </Fragment>
         );
     }
@@ -264,8 +277,9 @@ if(issue.fields.description.content!=null ){
 
  return (
     <ProjectPage>
-        <Form onSubmit={(e)=>e.preventDefault()}>
-        {renderSprintDropdown()}
+        <Text><Strong>-------------    -------- ------------------</Strong></Text>
+        <Heading size="Medium"><Text>{currentSprint}</Text></Heading>
+        <Text><Strong>-------------    -------- ------------------</Strong></Text>
         {renderStoryPointButton()}
         {renderDevHourButton()}
         {renderSuggestedDeveloperButton()}
@@ -290,7 +304,6 @@ if(issue.fields.description.content!=null ){
                 })
             }
         </Table>
-        </Form>
     </ProjectPage>
     );
 };
